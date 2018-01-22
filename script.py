@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 ## Imports
 from InstagramAPI import Instagram
+from time import sleep
 import csv
 import sys
 import os
@@ -22,22 +23,30 @@ if not os.path.exists(settings_dir):
 instagram = Instagram(username, password, debug, IGDataPath=settings_dir)
 #########
 
-## Login
+# Login
 try:
   instagram.login()
 except Exception as e:
-  e.message
+  print(e)
 ################
 
 file_name = sys.argv[3]
-message = sys.argv[4]
+message_file = sys.argv[4]
+
+with open(message_file) as message:
+  message = message.read()
+  # for line in message.readlines():
+  # print("W")
+  # print(line)
 
 with open(file_name) as csvDataFile:
   csvReader = csv.reader(csvDataFile)
   for idx,username in enumerate(csvReader):
+    if not username:
+      continue
     username_id = instagram.getUsernameId(username[0])
-    print(username_id)
     instagram.direct_message(str(username_id), message)
+  sleep(2)
 
 # For optimization:
 # print("SELF USER FOLLOWERS")
