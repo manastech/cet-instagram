@@ -2,6 +2,7 @@
 ## Imports
 from InstagramAPI import Instagram
 from time import sleep
+from math import ceil
 import csv
 import sys
 import os
@@ -33,13 +34,14 @@ message_file = sys.argv[4]
 with open(message_file) as message_file:
   message = message_file.read()
   urls = re.findall('(http[s]?:\/\/.+)\s', message)
-  print("URLS")
-  print(urls)
   message_list = [message]
   if len(message) > 1000:
-    msg_count = len(message) / 1000
-    message_list = message.split("\n")
-    message_list = ["\n".join(message_list[0:len(message_list)//2]), "\n".join(message_list[len(message_list)//2+1:len(message_list)-1])]
+    msg_count = ceil(len(message) / 1000)
+    lines = message.split("\n")
+    lines_per_message = ceil(len(lines)//msg_count)
+    message_list = []
+    for i in range(0,msg_count):
+      message_list.append("\n".join(lines[i*lines_per_message:(i+1)*lines_per_message]))
 
 failed_usernames = []
 successful = 0
