@@ -562,7 +562,7 @@ class HttpInterface(object):
         ch.setopt(pycurl.COOKIEFILE, self.parent.IGDataPath + self.parent.username + "-cookies.dat")
         ch.setopt(pycurl.COOKIEJAR, self.parent.IGDataPath + self.parent.username + "-cookies.dat")
         ch.setopt(pycurl.POST, True)
-        ch.setopt(pycurl.POSTFIELDS, data.encode())
+        ch.setopt(pycurl.POSTFIELDS, data)
 
         if self.parent.proxy:
             ch.setopt(pycurl.PROXY, self.parent.proxyHost)
